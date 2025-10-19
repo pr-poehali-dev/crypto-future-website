@@ -82,36 +82,32 @@ const mockCryptoData: CryptoData[] = [
 const newsData = [
   {
     id: 1,
-    title: 'Квантовые компьютеры революционизируют блокчейн технологию',
+    title: 'Bitcoin достигает новых высот на фоне институционального спроса',
     time: '2 часа назад',
-    category: 'Технологии',
-    icon: 'Cpu'
+    category: 'Рынок'
   },
   {
     id: 2,
-    title: 'Марсианская колония запускает собственную крипто-экономику',
+    title: 'Ethereum обновление улучшает масштабируемость сети',
     time: '5 часов назад',
-    category: 'Космос',
-    icon: 'Rocket'
+    category: 'Технологии'
   },
   {
     id: 3,
-    title: 'ИИ-алгоритмы предсказывают рост Bitcoin на 300%',
+    title: 'Регуляторы США обсуждают новые правила для криптовалют',
     time: '8 часов назад',
-    category: 'Прогноз',
-    icon: 'Brain'
+    category: 'Регулирование'
   },
   {
     id: 4,
-    title: 'Нейроинтерфейсы позволяют торговать силой мысли',
+    title: 'DeFi протокол привлекает $500M инвестиций',
     time: '12 часов назад',
-    category: 'Инновации',
-    icon: 'Zap'
+    category: 'DeFi'
   }
 ];
 
 const priceHistoryData = Array.from({ length: 30 }, (_, i) => ({
-  date: `${i + 1}`,
+  date: `${i + 1} окт`,
   BTC: 65000 + Math.random() * 5000,
   ETH: 3200 + Math.random() * 500,
   SOL: 130 + Math.random() * 30
@@ -122,14 +118,14 @@ const volumeData = [
   { name: 'ETH', volume: 15.2, fill: 'hsl(var(--chart-2))' },
   { name: 'BNB', volume: 2.1, fill: 'hsl(var(--chart-3))' },
   { name: 'SOL', volume: 3.8, fill: 'hsl(var(--chart-4))' },
-  { name: 'ADA', volume: 1.2, fill: 'hsl(var(--chart-5))' }
+  { name: 'Другие', volume: 12.4, fill: 'hsl(var(--muted))' }
 ];
 
 const technicalIndicators = [
-  { name: 'Quantum RSI', value: 67.8, status: 'Оптимально', trend: 'up' },
-  { name: 'AI MACD', value: 245.6, status: 'Бычий тренд', trend: 'up' },
-  { name: 'Neural MA', value: 66234, status: 'Поддержка', trend: 'neutral' },
-  { name: 'Blockchain Index', value: 892, status: 'Стабильно', trend: 'up' }
+  { name: 'RSI (14)', value: 67.8, status: 'Перекуплен' },
+  { name: 'MACD', value: 245.6, status: 'Бычий' },
+  { name: 'MA (50)', value: 66234, status: 'Выше цены' },
+  { name: 'Bollinger Bands', value: 'Средний', status: 'Нейтрально' }
 ];
 
 const Index = () => {
@@ -159,66 +155,53 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-primary/30 rounded-full blur-[120px] animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/30 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-accent/20 rounded-full blur-[120px] animate-float" style={{ animationDelay: '6s' }} />
-      </div>
-
-      <header className="border-b border-primary/20 bg-card/30 backdrop-blur-xl sticky top-0 z-50 neon-border">
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative w-14 h-14 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center animate-pulse-glow">
-                <Icon name="Rocket" size={28} className="text-background" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary opacity-50 rounded-2xl blur-xl" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                <Icon name="TrendingUp" size={24} className="text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold glow-cyan tracking-wider">
-                  CRYPTOFUTURE
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  CryptoFuture
                 </h1>
-                <div className="flex items-center gap-2 text-xs text-primary">
-                  <Icon name="Cpu" size={12} />
-                  <span className="font-mono">{time.toLocaleTimeString('ru-RU')}</span>
-                  <span className="text-muted-foreground">UTC+3</span>
-                </div>
+                <p className="text-xs text-muted-foreground">{time.toLocaleTimeString('ru-RU')}</p>
               </div>
             </div>
             <nav className="hidden md:flex items-center gap-6">
-              {['Портал', 'Аналитика', 'Рынки', 'Новости'].map((item, i) => (
-                <button 
-                  key={i}
-                  className="relative text-sm font-medium text-foreground hover:text-primary transition-all group"
-                >
-                  <span className={i === 0 ? 'glow-cyan' : ''}>{item}</span>
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all" />
-                </button>
-              ))}
+              <button className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                Главная
+              </button>
+              <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Аналитика
+              </button>
+              <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Рынки
+              </button>
+              <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Новости
+              </button>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <Card className="col-span-full lg:col-span-8 bg-card/40 backdrop-blur-xl border-primary/30 card-glow overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent" />
+      <main className="container mx-auto px-4 py-8 space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="col-span-full lg:col-span-2 bg-gradient-to-br from-card to-card/50 border-border/50">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-4xl font-bold glow-cyan">{selectedCrypto.name}</CardTitle>
-                  <p className="text-muted-foreground font-mono">{selectedCrypto.symbol}/USD</p>
+                  <CardTitle className="text-3xl font-bold">{selectedCrypto.name}</CardTitle>
+                  <p className="text-muted-foreground">{selectedCrypto.symbol}/USD</p>
                 </div>
-                <Badge 
-                  variant={selectedCrypto.change24h > 0 ? "default" : "destructive"} 
-                  className="text-xl px-6 py-3 font-bold rounded-xl"
-                >
-                  <Icon name={selectedCrypto.change24h > 0 ? "TrendingUp" : "TrendingDown"} size={20} className="mr-2" />
+                <Badge variant={selectedCrypto.change24h > 0 ? "default" : "destructive"} className="text-lg px-4 py-2">
                   {selectedCrypto.change24h > 0 ? '+' : ''}{selectedCrypto.change24h.toFixed(2)}%
                 </Badge>
               </div>
-              <div className="text-5xl font-bold mt-4 glow-cyan font-mono">
+              <div className="text-4xl font-bold mt-4">
                 {formatPrice(selectedCrypto.price)}
               </div>
             </CardHeader>
